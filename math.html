@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Math Game</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .math-container {
+      margin-top: 100px;
+    }
+    #question {
+      font-size: 28px;
+      margin: 20px;
+    }
+    #score {
+      font-size: 20px;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="math-container">
+    <h2>➕ Math Game</h2>
+    <p id="timer">⏱️ 60</p>
+    <div id="question"></div>
+    <input type="number" id="answer" placeholder="Enter answer" onkeyup="checkAnswer(event)">
+    <p id="score">Score: 0</p>
+  </div>
+
+  <script>
+    let num1, num2, answer, score = 0, timeLeft = 60;
+
+    function generateQuestion() {
+      num1 = Math.floor(Math.random() * 20);
+      num2 = Math.floor(Math.random() * 20);
+      answer = num1 + num2;
+      document.getElementById("question").innerText = `${num1} + ${num2} = ?`;
+    }
+
+    function checkAnswer(event) {
+      if (event.key === "Enter") {
+        const userAnswer = parseInt(document.getElementById("answer").value);
+        if (userAnswer === answer) {
+          score++;
+          document.getElementById("score").innerText = "Score: " + score;
+        }
+        document.getElementById("answer").value = "";
+        generateQuestion();
+      }
+    }
+
+    function startTimer() {
+      const timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = `⏱️ ${timeLeft}`;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          alert(`Time's up! Score: ${score}`);
+          window.location.href = "index.html";
+        }
+      }, 1000);
+    }
+
+    generateQuestion();
+    startTimer();
+  </script>
+</body>
+</html>
