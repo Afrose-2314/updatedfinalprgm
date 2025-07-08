@@ -22,20 +22,22 @@
       cursor: pointer;
     }
     .flipped {
-      font-size: 0;
       background-color: var(--color);
     }
+    #result { font-size: 28px; margin-top: 20px; animation: popUp 0.6s ease; }
   </style>
 </head>
 <body>
   <h2>🧠 Memory Game</h2>
   <p id="timer">⏱️ 60</p>
   <div class="memory-container" id="gameBoard"></div>
+  <div id="result"></div>
 
   <script>
     const colors = ["red", "blue", "green", "orange", "purple", "pink", "yellow", "cyan", "brown", "lime"];
     const deck = [...colors, ...colors].sort(() => 0.5 - Math.random());
     let first = null, second = null, matches = 0, timeLeft = 60;
+
     const board = document.getElementById("gameBoard");
 
     deck.forEach(color => {
@@ -59,8 +61,7 @@
           if (first.dataset.color === second.dataset.color) {
             matches++;
             if (matches === 10) {
-              alert("🎉 All 10 matched!");
-              window.location.href = "index.html";
+              showResult(true);
             }
           } else {
             first.classList.remove("flipped");
@@ -71,14 +72,20 @@
       }
     }
 
+    function showResult(win) {
+      document.getElementById("result").innerHTML = win ?
+        "🎉 <span>All matched! Great job!</span>" :
+        "❌ <span>Time's up! Try again.</span>";
+      setTimeout(() => window.location.href = "index.html", 3000);
+    }
+
     function startTimer() {
       const interval = setInterval(() => {
         timeLeft--;
         document.getElementById("timer").innerText = "⏱️ " + timeLeft;
         if (timeLeft <= 0) {
           clearInterval(interval);
-          alert("⏰ Time's up!");
-          window.location.href = "index.html";
+          showResult(false);
         }
       }, 1000);
     }
