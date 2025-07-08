@@ -1,10 +1,13 @@
-const games = [
+let games = [
   { emoji: "🎨", file: "color.html", instruction: "Type the font's color name, not the word!" },
   { emoji: "🔢", file: "guess.html", instruction: "Guess the number between 1 and 100." },
   { emoji: "🧠", file: "memory.html", instruction: "Match all 10 color pairs before time ends!" },
-  { emoji: "🎯", file: "typing.html", instruction: "Type the shown word as quickly as possible." },
-  { emoji: "➕", file: "math.html", instruction: "Solve simple math sums in 60 seconds." }
+  { emoji: "🎯", file: "typing.html", instruction: "Type the shown word as fast as you can." },
+  { emoji: "➕", file: "math.html", instruction: "Solve simple sums in 60 seconds." }
 ];
+
+// Shuffle game order every time page loads
+games = games.sort(() => Math.random() - 0.5);
 
 let selectedIndex = 0;
 
