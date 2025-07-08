@@ -2,27 +2,17 @@
 <html>
 <head>
   <title>Guess Game</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
   <style>
-    .guess-game {
-      margin-top: 100px;
-    }
-    #message {
-      font-size: 20px;
-      color: green;
-      margin-top: 10px;
-    }
-    #timer {
-      font-size: 20px;
-      margin-top: 10px;
-    }
+    .guess-game { margin-top: 100px; }
+    #message, #timer { font-size: 20px; margin: 10px; }
   </style>
 </head>
 <body>
   <div class="guess-game">
     <h2>🔢 Guess The Number</h2>
-    <p>Pick a number between 1 and 100</p>
-    <input type="number" id="guessInput" placeholder="Your guess">
+    <p>Guess a number between 1 and 100</p>
+    <input type="number" id="guessInput" placeholder="Your guess" />
     <button onclick="checkGuess()">Submit</button>
     <p id="message"></p>
     <p id="timer">⏱️ 60</p>
@@ -34,25 +24,25 @@
 
     function checkGuess() {
       const guess = parseInt(document.getElementById("guessInput").value);
-      const message = document.getElementById("message");
+      const msg = document.getElementById("message");
 
       if (guess === number) {
-        message.innerText = "🎉 Correct! You guessed the number!";
-        setTimeout(() => window.location.href = "index.html", 2000);
+        msg.innerText = "🎉 Correct!";
+        setTimeout(() => window.location.href = "index.html", 1500);
       } else if (guess < number) {
-        message.innerText = "Try Higher!";
+        msg.innerText = "📈 Try Higher!";
       } else {
-        message.innerText = "Try Lower!";
+        msg.innerText = "📉 Try Lower!";
       }
     }
 
     function startTimer() {
       const interval = setInterval(() => {
         timeLeft--;
-        document.getElementById("timer").innerText = `⏱️ ${timeLeft}`;
+        document.getElementById("timer").innerText = "⏱️ " + timeLeft;
         if (timeLeft <= 0) {
           clearInterval(interval);
-          alert("⏰ Time's up! The number was " + number);
+          alert("⏰ Time's up! Number was: " + number);
           window.location.href = "index.html";
         }
       }, 1000);
