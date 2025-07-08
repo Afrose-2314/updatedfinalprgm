@@ -7,6 +7,11 @@
     .color-game { margin-top: 100px; }
     #word { font-size: 32px; margin: 20px; }
     #score, #timer { font-size: 20px; margin: 10px; }
+    .end-message { font-size: 28px; margin-top: 20px; animation: popUp 0.6s ease; }
+    @keyframes popUp {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
   </style>
 </head>
 <body>
@@ -16,11 +21,13 @@
     <div id="word"></div>
     <input type="text" id="userInput" placeholder="Type the color" onkeyup="checkAnswer(event)" />
     <p id="score">Score: 0</p>
+    <div id="resultMsg"></div>
   </div>
 
   <script>
     const colors = ["Red", "Green", "Blue", "Yellow", "Orange", "Purple"];
     let correctColor = "", score = 0, timeLeft = 60;
+    const msgBox = document.getElementById("resultMsg");
 
     function setNewColor() {
       const text = colors[Math.floor(Math.random() * colors.length)];
@@ -42,14 +49,19 @@
       }
     }
 
+    function endGame(win) {
+      msgBox.innerHTML = win ? "🎉 <span class='end-message'>Congratulations!</span>" :
+                               "❌ <span class='end-message'>Try Again!</span>";
+      setTimeout(() => window.location.href = "index.html", 3000);
+    }
+
     function startTimer() {
       const interval = setInterval(() => {
         timeLeft--;
         document.getElementById("timer").innerText = "⏱️ " + timeLeft;
         if (timeLeft <= 0) {
           clearInterval(interval);
-          alert("⏰ Time's up! Score: " + score);
-          window.location.href = "index.html";
+          endGame(score >= 5);
         }
       }, 1000);
     }
