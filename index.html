@@ -6,18 +6,27 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <script>
+    // Block direct access without login
+    if (!sessionStorage.getItem("user")) {
+      window.location.href = "login.html";
+    }
+  </script>
+
   <h1>🎡 Welcome, <span id="username"></span></h1>
-  <div class="wheel-wrapper">
+
+  <div class="wheel-container">
     <div id="wheel" class="wheel">
       <div class="segment">🎨</div>
       <div class="segment">🔢</div>
       <div class="segment">🧠</div>
       <div class="segment">🎯</div>
+      <div class="segment">➕</div>
     </div>
     <button onclick="spinWheel()" id="spinBtn">SPIN</button>
   </div>
 
-  <!-- Popup Instructions -->
+  <!-- Instruction Popup -->
   <div id="popup" class="popup">
     <div class="popup-box">
       <h3>Game Instructions</h3>
