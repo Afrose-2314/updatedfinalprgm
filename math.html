@@ -8,6 +8,7 @@
     #question { font-size: 28px; margin: 20px; }
     input { font-size: 16px; padding: 10px; }
     #score, #timer { font-size: 20px; margin-top: 10px; }
+    #result { font-size: 28px; margin-top: 20px; animation: popUp 0.5s ease; }
   </style>
 </head>
 <body>
@@ -17,14 +18,15 @@
     <div id="question"></div>
     <input type="number" id="answer" placeholder="Answer" onkeyup="check(event)" />
     <p id="score">Score: 0</p>
+    <div id="result"></div>
   </div>
 
   <script>
     let a, b, ans, score = 0, timeLeft = 60;
 
     function newQ() {
-      a = Math.floor(Math.random() * 20);
-      b = Math.floor(Math.random() * 20);
+      a = Math.floor(Math.random() * 11);
+      b = Math.floor(Math.random() * 11);
       ans = a + b;
       document.getElementById("question").innerText = `${a} + ${b} = ?`;
     }
@@ -41,14 +43,19 @@
       }
     }
 
+    function endGame() {
+      document.getElementById("result").innerHTML =
+        score >= 5 ? "🎉 <span>Well done!</span>" : "❌ <span>Try again!</span>";
+      setTimeout(() => window.location.href = "index.html", 3000);
+    }
+
     function startTimer() {
       const interval = setInterval(() => {
         timeLeft--;
         document.getElementById("timer").innerText = "⏱️ " + timeLeft;
         if (timeLeft <= 0) {
           clearInterval(interval);
-          alert("⏰ Time's up! Score: " + score);
-          window.location.href = "index.html";
+          endGame();
         }
       }, 1000);
     }
