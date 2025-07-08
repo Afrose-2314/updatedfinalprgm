@@ -6,6 +6,7 @@
   <style>
     .guess-game { margin-top: 100px; }
     #message, #timer { font-size: 20px; margin: 10px; }
+    .end-message { font-size: 28px; animation: popUp 0.5s ease; }
   </style>
 </head>
 <body>
@@ -22,17 +23,19 @@
     const number = Math.floor(Math.random() * 100) + 1;
     let timeLeft = 60;
 
+    function showResult(win) {
+      const msg = document.getElementById("message");
+      msg.innerHTML = win ? "🎉 <span class='end-message'>Correct! You win!</span>" :
+                            "❌ <span class='end-message'>Time's up! Try again.</span>";
+      setTimeout(() => window.location.href = "index.html", 3000);
+    }
+
     function checkGuess() {
       const guess = parseInt(document.getElementById("guessInput").value);
-      const msg = document.getElementById("message");
-
       if (guess === number) {
-        msg.innerText = "🎉 Correct!";
-        setTimeout(() => window.location.href = "index.html", 1500);
-      } else if (guess < number) {
-        msg.innerText = "📈 Try Higher!";
+        showResult(true);
       } else {
-        msg.innerText = "📉 Try Lower!";
+        document.getElementById("message").innerText = guess < number ? "📈 Higher!" : "📉 Lower!";
       }
     }
 
@@ -42,8 +45,7 @@
         document.getElementById("timer").innerText = "⏱️ " + timeLeft;
         if (timeLeft <= 0) {
           clearInterval(interval);
-          alert("⏰ Time's up! Number was: " + number);
-          window.location.href = "index.html";
+          showResult(false);
         }
       }, 1000);
     }
