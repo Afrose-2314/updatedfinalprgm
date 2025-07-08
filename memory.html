@@ -2,11 +2,13 @@
 <html>
 <head>
   <title>Memory Game</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
   <style>
+    body { font-family: Arial; text-align: center; }
+    #timer { font-size: 20px; margin: 10px; }
     .memory-container {
       display: grid;
-      grid-template-columns: repeat(4, 100px);
+      grid-template-columns: repeat(5, 100px);
       gap: 10px;
       justify-content: center;
       margin-top: 30px;
@@ -14,17 +16,14 @@
     .card {
       width: 100px;
       height: 100px;
-      background: #888;
-      font-size: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background-color: #bbb;
+      font-size: 0;
+      border-radius: 10px;
       cursor: pointer;
-      color: white;
-      border-radius: 8px;
     }
-    #timer {
-      font-size: 20px;
+    .flipped {
+      font-size: 0;
+      background-color: var(--color);
     }
   </style>
 </head>
@@ -34,43 +33,40 @@
   <div class="memory-container" id="gameBoard"></div>
 
   <script>
-    const emojis = ['🍎','🍌','🍇','🍒','🍎','🍌','🍇','🍒'];
-    const shuffled = emojis.sort(() => 0.5 - Math.random());
+    const colors = ["red", "blue", "green", "orange", "purple", "pink", "yellow", "cyan", "brown", "lime"];
+    const deck = [...colors, ...colors].sort(() => 0.5 - Math.random());
+    let first = null, second = null, matches = 0, timeLeft = 60;
     const board = document.getElementById("gameBoard");
 
-    let first = null, second = null, matches = 0;
-    let timeLeft = 60;
-
-    shuffled.forEach((emoji, i) => {
+    deck.forEach(color => {
       const card = document.createElement("div");
-      card.classList.add("card");
-      card.dataset.emoji = emoji;
-      card.innerText = "";
-      card.onclick = () => flipCard(card);
+      card.className = "card";
+      card.dataset.color = color;
+      card.onclick = () => flip(card);
       board.appendChild(card);
     });
 
-    function flipCard(card) {
-      if (card.innerText || second) return;
-      card.innerText = card.dataset.emoji;
+    function flip(card) {
+      if (card.classList.contains("flipped") || second) return;
+      card.style.setProperty("--color", card.dataset.color);
+      card.classList.add("flipped");
 
       if (!first) {
         first = card;
       } else {
         second = card;
         setTimeout(() => {
-          if (first.dataset.emoji === second.dataset.emoji) {
+          if (first.dataset.color === second.dataset.color) {
             matches++;
-            if (matches === emojis.length / 2) {
-              alert("🎉 You matched all pairs!");
+            if (matches === 10) {
+              alert("🎉 All 10 matched!");
               window.location.href = "index.html";
             }
           } else {
-            first.innerText = "";
-            second.innerText = "";
+            first.classList.remove("flipped");
+            second.classList.remove("flipped");
           }
-          first = null;
-          second = null;
+          first = null; second = null;
         }, 600);
       }
     }
@@ -78,7 +74,7 @@
     function startTimer() {
       const interval = setInterval(() => {
         timeLeft--;
-        document.getElementById("timer").innerText = `⏱️ ${timeLeft}`;
+        document.getElementById("timer").innerText = "⏱️ " + timeLeft;
         if (timeLeft <= 0) {
           clearInterval(interval);
           alert("⏰ Time's up!");
