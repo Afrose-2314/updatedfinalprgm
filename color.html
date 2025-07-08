@@ -2,19 +2,11 @@
 <html>
 <head>
   <title>Color Game</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
   <style>
-    .color-game {
-      margin-top: 100px;
-    }
-    #word {
-      font-size: 32px;
-      margin: 20px;
-    }
-    #score, #timer {
-      font-size: 20px;
-      margin: 10px;
-    }
+    .color-game { margin-top: 100px; }
+    #word { font-size: 32px; margin: 20px; }
+    #score, #timer { font-size: 20px; margin: 10px; }
   </style>
 </head>
 <body>
@@ -22,28 +14,26 @@
     <h2>🎨 Color Game</h2>
     <p id="timer">⏱️ 60</p>
     <div id="word"></div>
-    <input type="text" id="userInput" placeholder="Type the color name" onkeyup="checkAnswer(event)">
+    <input type="text" id="userInput" placeholder="Type the color" onkeyup="checkAnswer(event)" />
     <p id="score">Score: 0</p>
   </div>
 
   <script>
     const colors = ["Red", "Green", "Blue", "Yellow", "Orange", "Purple"];
-    let correctColor = "";
-    let score = 0;
-    let timeLeft = 60;
+    let correctColor = "", score = 0, timeLeft = 60;
 
     function setNewColor() {
-      const textColor = colors[Math.floor(Math.random() * colors.length)];
+      const text = colors[Math.floor(Math.random() * colors.length)];
       correctColor = colors[Math.floor(Math.random() * colors.length)];
       const wordElem = document.getElementById("word");
-      wordElem.innerText = textColor;
+      wordElem.innerText = text;
       wordElem.style.color = correctColor.toLowerCase();
     }
 
     function checkAnswer(event) {
       if (event.key === "Enter") {
-        const input = document.getElementById("userInput").value.trim().toLowerCase();
-        if (input === correctColor.toLowerCase()) {
+        const val = document.getElementById("userInput").value.trim().toLowerCase();
+        if (val === correctColor.toLowerCase()) {
           score++;
           document.getElementById("score").innerText = "Score: " + score;
         }
@@ -55,10 +45,10 @@
     function startTimer() {
       const interval = setInterval(() => {
         timeLeft--;
-        document.getElementById("timer").innerText = `⏱️ ${timeLeft}`;
+        document.getElementById("timer").innerText = "⏱️ " + timeLeft;
         if (timeLeft <= 0) {
           clearInterval(interval);
-          alert(`⏰ Time's up! Final Score: ${score}`);
+          alert("⏰ Time's up! Score: " + score);
           window.location.href = "index.html";
         }
       }, 1000);
