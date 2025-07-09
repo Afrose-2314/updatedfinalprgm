@@ -6,8 +6,7 @@ let games = [
   { emoji: "➕", file: "math.html", instruction: "Solve easy + - × sums in 60 seconds." }
 ];
 
-// Shuffle order on each load
-games = games.sort(() => Math.random() - 0.5);
+games = games.sort(() => Math.random() - 0.5); // Shuffle
 
 document.getElementById("username").innerText = sessionStorage.getItem("user");
 
@@ -15,16 +14,17 @@ const wheel = document.getElementById("wheel");
 const segmentCount = games.length;
 const anglePerSegment = 360 / segmentCount;
 
-// Clear previous segments if any
+// Clear existing
 wheel.innerHTML = "";
 
-// Create segments
 games.forEach((game, i) => {
-  const angle = i * anglePerSegment;
   const segment = document.createElement("div");
   segment.className = "segment";
+  const angle = i * anglePerSegment;
+
   segment.style.transform = `rotate(${angle}deg) translate(0, -130px) rotate(${-angle}deg)`;
   segment.innerText = game.emoji;
+
   wheel.appendChild(segment);
 });
 
@@ -33,11 +33,11 @@ let selectedIndex = 0;
 function spinWheel() {
   const randomIndex = Math.floor(Math.random() * segmentCount);
   selectedIndex = randomIndex;
-  const fullRotations = 5; // to make it spin multiple times
-  const finalAngle = fullRotations * 360 + (360 - selectedIndex * anglePerSegment - anglePerSegment / 2);
+  const fullSpins = 5;
+  const angle = fullSpins * 360 + (360 - selectedIndex * anglePerSegment - anglePerSegment / 2);
 
   wheel.style.transition = "transform 4s ease-out";
-  wheel.style.transform = `rotate(${finalAngle}deg)`;
+  wheel.style.transform = `rotate(${angle}deg)`;
 
   setTimeout(() => {
     document.getElementById("popup-text").innerText = games[selectedIndex].instruction;
