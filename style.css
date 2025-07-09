@@ -60,20 +60,23 @@ h1 {
   background: #388e3c;
 }
 
-/* Popup styles */
+/* Comic-style popup */
 .popup {
   display: none;
+  align-items: center;
+  justify-content: center;
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 99;
 }
 
 .popup-box {
   background: url('https://i.imgur.com/M3nK9HE.png') center/cover no-repeat;
   padding: 30px;
-  width: 300px;
+  width: 320px;
   border-radius: 16px;
-  margin: 140px auto;
+  margin: auto;
   color: #111;
   background-color: #fff;
   border: 4px dashed #ff9800;
