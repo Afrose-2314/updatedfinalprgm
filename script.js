@@ -6,35 +6,43 @@ let games = [
   { emoji: "➕", file: "math.html", instruction: "Solve easy + - × sums in 60 seconds." }
 ];
 
-games = games.sort(() => Math.random() - 0.5); // shuffle
+// Shuffle order on each load
+games = games.sort(() => Math.random() - 0.5);
 
 document.getElementById("username").innerText = sessionStorage.getItem("user");
 
 const wheel = document.getElementById("wheel");
+const segmentCount = games.length;
+const anglePerSegment = 360 / segmentCount;
 
-// Dynamically create wheel segments (perfectly spaced)
+// Clear previous segments if any
+wheel.innerHTML = "";
+
+// Create segments
 games.forEach((game, i) => {
-  const angle = i * (360 / games.length);
-  const seg = document.createElement("div");
-  seg.className = "segment";
-  seg.style.transform = `rotate(${angle}deg) translateY(-130px)`;
-  seg.innerText = game.emoji;
-  wheel.appendChild(seg);
+  const angle = i * anglePerSegment;
+  const segment = document.createElement("div");
+  segment.className = "segment";
+  segment.style.transform = `rotate(${angle}deg) translate(0, -130px) rotate(${-angle}deg)`;
+  segment.innerText = game.emoji;
+  wheel.appendChild(segment);
 });
 
 let selectedIndex = 0;
 
 function spinWheel() {
-  const spinDeg = 1440 + Math.floor(Math.random() * 360);
-  wheel.style.transform = `rotate(${spinDeg}deg)`;
+  const randomIndex = Math.floor(Math.random() * segmentCount);
+  selectedIndex = randomIndex;
+  const fullRotations = 5; // to make it spin multiple times
+  const finalAngle = fullRotations * 360 + (360 - selectedIndex * anglePerSegment - anglePerSegment / 2);
 
-  const normalized = spinDeg % 360;
-  selectedIndex = Math.floor(normalized / (360 / games.length)) % games.length;
+  wheel.style.transition = "transform 4s ease-out";
+  wheel.style.transform = `rotate(${finalAngle}deg)`;
 
   setTimeout(() => {
     document.getElementById("popup-text").innerText = games[selectedIndex].instruction;
     document.getElementById("popup").style.display = "block";
-  }, 4000);
+  }, 4100);
 }
 
 function startGame() {
