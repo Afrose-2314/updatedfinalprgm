@@ -25,16 +25,23 @@ h1 {
   border: 10px solid #444;
   background: radial-gradient(circle, #fff8e1, #ffe082);
   transition: transform 4s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .segment {
   position: absolute;
   width: 100%;
   height: 100%;
-  text-align: center;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
   font-size: 36px;
   font-weight: bold;
   transform-origin: center;
+  pointer-events: none;
 }
 
 #spinBtn {
@@ -53,6 +60,7 @@ h1 {
   background: #388e3c;
 }
 
+/* Popup styles */
 .popup {
   display: none;
   position: fixed;
