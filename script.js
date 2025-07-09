@@ -6,15 +6,15 @@ const games = [
   { emoji: "➕", file: "math.html", instruction: "➕ Solve simple + - × sums using numbers 0 to 10." }
 ];
 
-// Shuffle games randomly
+
 const shuffledGames = games.sort(() => Math.random() - 0.5);
 const wheel = document.getElementById("wheel");
 const anglePerSegment = 360 / shuffledGames.length;
 
-// Clear wheel
+
 wheel.innerHTML = "";
 
-// Add emoji segments
+
 shuffledGames.forEach((game, i) => {
   const segment = document.createElement("div");
   segment.className = "segment";
@@ -24,7 +24,7 @@ shuffledGames.forEach((game, i) => {
   wheel.appendChild(segment);
 });
 
-// Display username from session
+
 const username = sessionStorage.getItem("user");
 if (!username) {
   window.location.href = "login.html";
