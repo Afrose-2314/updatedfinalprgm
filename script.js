@@ -1,4 +1,5 @@
 
+
 let games = [
   { emoji: "🎨", file: "color.html", instruction: "🎨 Type the font’s color name (not the word shown)!" },
   { emoji: "🔢", file: "guess.html", instruction: "🔢 Guess a number between 1 and 100." },
