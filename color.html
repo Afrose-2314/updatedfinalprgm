@@ -4,22 +4,28 @@
   <title>Color Game</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .color-game { margin-top: 100px; }
+    .color-game { margin-top: 80px; }
     #word { font-size: 32px; margin: 20px; }
     #score, #timer { font-size: 20px; margin: 10px; }
-    .end-message { font-size: 28px; margin-top: 20px; animation: popUp 0.6s ease; }
+    #resultMsg {
+      font-size: 26px;
+      margin-top: 20px;
+      animation: popUp 0.5s ease;
+    }
     @keyframes popUp {
       from { transform: scale(0.8); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
+    .success { color: green; }
+    .fail { color: red; }
   </style>
 </head>
 <body>
   <div class="color-game">
-    <h2>🎨 Color Game</h2>
+    <h2>🎨 Color Match</h2>
     <p id="timer">⏱️ 60</p>
     <div id="word"></div>
-    <input type="text" id="userInput" placeholder="Type the color" onkeyup="checkAnswer(event)" />
+    <input type="text" id="userInput" placeholder="Type the color name" onkeyup="checkAnswer(event)" />
     <p id="score">Score: 0</p>
     <div id="resultMsg"></div>
   </div>
@@ -27,41 +33,45 @@
   <script>
     const colors = ["Red", "Green", "Blue", "Yellow", "Orange", "Purple"];
     let correctColor = "", score = 0, timeLeft = 60;
+
+    const wordElem = document.getElementById("word");
+    const input = document.getElementById("userInput");
     const msgBox = document.getElementById("resultMsg");
 
     function setNewColor() {
       const text = colors[Math.floor(Math.random() * colors.length)];
       correctColor = colors[Math.floor(Math.random() * colors.length)];
-      const wordElem = document.getElementById("word");
       wordElem.innerText = text;
       wordElem.style.color = correctColor.toLowerCase();
     }
 
     function checkAnswer(event) {
-      if (event.key === "Enter") {
-        const val = document.getElementById("userInput").value.trim().toLowerCase();
+      if (event.key === "Enter" && input.disabled === false) {
+        const val = input.value.trim().toLowerCase();
         if (val === correctColor.toLowerCase()) {
           score++;
           document.getElementById("score").innerText = "Score: " + score;
         }
-        document.getElementById("userInput").value = "";
+        input.value = "";
         setNewColor();
       }
     }
 
-    function endGame(win) {
-      msgBox.innerHTML = win ? "🎉 <span class='end-message'>Congratulations!</span>" :
-                               "❌ <span class='end-message'>Try Again!</span>";
+    function endGame() {
+      input.disabled = true;
+      msgBox.innerHTML = score >= 5
+        ? "🎉 <span class='success'>Congratulations!</span>"
+        : "❌ <span class='fail'>Try Again!</span>";
       setTimeout(() => window.location.href = "index.html", 3000);
     }
 
     function startTimer() {
-      const interval = setInterval(() => {
+      const timer = setInterval(() => {
         timeLeft--;
         document.getElementById("timer").innerText = "⏱️ " + timeLeft;
         if (timeLeft <= 0) {
-          clearInterval(interval);
-          endGame(score >= 5);
+          clearInterval(timer);
+          endGame();
         }
       }, 1000);
     }
