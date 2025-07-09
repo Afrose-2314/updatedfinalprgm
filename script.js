@@ -3,22 +3,33 @@ let games = [
   { emoji: "🔢", file: "guess.html", instruction: "Guess the number between 1 and 100." },
   { emoji: "🧠", file: "memory.html", instruction: "Match all 10 color pairs before time ends!" },
   { emoji: "🎯", file: "typing.html", instruction: "Type the shown word as fast as you can." },
-  { emoji: "➕", file: "math.html", instruction: "Solve simple sums in 60 seconds." }
+  { emoji: "➕", file: "math.html", instruction: "Solve easy + - × sums in 60 seconds." }
 ];
 
-// Shuffle game order every time page loads
-games = games.sort(() => Math.random() - 0.5);
-
-let selectedIndex = 0;
+games = games.sort(() => Math.random() - 0.5); // shuffle
 
 document.getElementById("username").innerText = sessionStorage.getItem("user");
 
-function spinWheel() {
-  const spinDegrees = 1440 + Math.floor(Math.random() * 360);
-  document.getElementById("wheel").style.transform = `rotate(${spinDegrees}deg)`;
+const wheel = document.getElementById("wheel");
 
-  const normalized = spinDegrees % 360;
-  selectedIndex = Math.floor(normalized / 72) % 5;
+// Dynamically create wheel segments (perfectly spaced)
+games.forEach((game, i) => {
+  const angle = i * (360 / games.length);
+  const seg = document.createElement("div");
+  seg.className = "segment";
+  seg.style.transform = `rotate(${angle}deg) translateY(-130px)`;
+  seg.innerText = game.emoji;
+  wheel.appendChild(seg);
+});
+
+let selectedIndex = 0;
+
+function spinWheel() {
+  const spinDeg = 1440 + Math.floor(Math.random() * 360);
+  wheel.style.transform = `rotate(${spinDeg}deg)`;
+
+  const normalized = spinDeg % 360;
+  selectedIndex = Math.floor(normalized / (360 / games.length)) % games.length;
 
   setTimeout(() => {
     document.getElementById("popup-text").innerText = games[selectedIndex].instruction;
