@@ -4,63 +4,82 @@
   <title>Math Game</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .math-container { margin-top: 100px; }
+    .math-container { margin-top: 80px; }
     #question { font-size: 28px; margin: 20px; }
-    input { font-size: 16px; padding: 10px; }
-    #score, #timer { font-size: 20px; margin-top: 10px; }
-    #result { font-size: 28px; margin-top: 20px; animation: popUp 0.5s ease; }
+    #score, #timer { font-size: 20px; margin: 10px; }
+    input { font-size: 18px; padding: 8px; }
+    #result { font-size: 26px; margin-top: 20px; animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .success { color: green; }
+    .fail { color: red; }
   </style>
 </head>
 <body>
   <div class="math-container">
-    <h2>➕ Math Game</h2>
+    <h2>➕ ➖ ✖️ Math Challenge</h2>
     <p id="timer">⏱️ 60</p>
     <div id="question"></div>
-    <input type="number" id="answer" placeholder="Answer" onkeyup="check(event)" />
+    <input type="number" id="answer" placeholder="Answer" onkeyup="checkAnswer(event)" />
     <p id="score">Score: 0</p>
     <div id="result"></div>
   </div>
 
   <script>
-    let a, b, ans, score = 0, timeLeft = 60;
+    let score = 0, timeLeft = 60, a, b, op, result;
 
-    function newQ() {
+    const answerInput = document.getElementById("answer");
+    const questionElem = document.getElementById("question");
+    const scoreElem = document.getElementById("score");
+    const resultBox = document.getElementById("result");
+
+    function newQuestion() {
       a = Math.floor(Math.random() * 11);
       b = Math.floor(Math.random() * 11);
-      ans = a + b;
-      document.getElementById("question").innerText = `${a} + ${b} = ?`;
+      const ops = ["+", "-", "×"];
+      op = ops[Math.floor(Math.random() * ops.length)];
+
+      if (op === "+") result = a + b;
+      if (op === "-") result = a - b;
+      if (op === "×") result = a * b;
+
+      questionElem.innerText = `${a} ${op} ${b} = ?`;
     }
 
-    function check(e) {
-      if (e.key === "Enter") {
-        const user = parseInt(document.getElementById("answer").value);
-        if (user === ans) {
+    function checkAnswer(e) {
+      if (e.key === "Enter" && !answerInput.disabled) {
+        const userAns = parseInt(answerInput.value);
+        if (userAns === result) {
           score++;
-          document.getElementById("score").innerText = "Score: " + score;
+          scoreElem.innerText = "Score: " + score;
         }
-        document.getElementById("answer").value = "";
-        newQ();
+        answerInput.value = "";
+        newQuestion();
       }
     }
 
     function endGame() {
-      document.getElementById("result").innerHTML =
-        score >= 5 ? "🎉 <span>Well done!</span>" : "❌ <span>Try again!</span>";
+      answerInput.disabled = true;
+      resultBox.innerHTML = score >= 5
+        ? "🎉 <span class='success'>Congratulations!</span>"
+        : "❌ <span class='fail'>Try Again!</span>";
       setTimeout(() => window.location.href = "index.html", 3000);
     }
 
     function startTimer() {
-      const interval = setInterval(() => {
+      const timer = setInterval(() => {
         timeLeft--;
         document.getElementById("timer").innerText = "⏱️ " + timeLeft;
         if (timeLeft <= 0) {
-          clearInterval(interval);
+          clearInterval(timer);
           endGame();
         }
       }, 1000);
     }
 
-    newQ();
+    newQuestion();
     startTimer();
   </script>
 </body>
