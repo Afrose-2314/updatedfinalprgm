@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Computer Acronym Quiz</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .quiz-container {
+      margin-top: 80px;
+      padding: 20px;
+    }
+    .question {
+      font-size: 20px;
+      margin: 20px;
+      font-weight: bold;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .options button {
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+    .options button:hover {
+      background-color: #388e3c;
+    }
+    #timer, #score, #resultMsg {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+    .success {
+      color: green;
+      font-size: 22px;
+      font-weight: bold;
+      animation: bounceIn 0.6s ease;
+    }
+    .fail {
+      color: red;
+      font-size: 22px;
+      font-weight: bold;
+      animation: bounceIn 0.6s ease;
+    }
+    @keyframes bounceIn {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="quiz-container">
+    <h2>🧠 Computer Acronym Quiz</h2>
+    <p id="timer">⏱️ 60</p>
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+    <p id="score">Score: 0</p>
+    <p id="resultMsg"></p>
+  </div>
+
+  <script>
+    const questions = [
+      { q: "What does CPU stand for?", options: ["Central Processing Unit", "Computer Power Unit", "Central Processor Utility"], answer: 0 },
+      { q: "What is the full form of HTML?", options: ["Hyper Text Markup Language", "High Transfer Machine Language", "Home Tool Markup Language"], answer: 0 },
+      { q: "What is USB?", options: ["Universal Serial Bus", "United System Block", "Universal Software Buffer"], answer: 0 },
+      { q: "What is ROM?", options: ["Read Only Memory", "Random Output Module", "Real Open Machine"], answer: 0 },
+      { q: "What does LAN stand for?", options: ["Local Area Network", "Large Access Node", "Local Account Number"], answer: 0 },
+      { q: "What does RAM stand for?", options: ["Random Access Memory", "Read And Modify", "Run Application Module"], answer: 0 },
+      { q: "What is the full form of URL?", options: ["Uniform Resource Locator", "Unified Reference Link", "Universal Routing Language"], answer: 0 },
+      { q: "What does PDF mean?", options: ["Portable Document Format", "Page Description File", "Print Document Flow"], answer: 0 },
+      { q: "What does IP stand for?", options: ["Internet Protocol", "Internal Program", "Interconnected Platform"], answer: 0 },
+      { q: "What is GUI?", options: ["Graphical User Interface", "General Utility Interface", "Graphical Unit Integrator"], answer: 0 }
+    ];
+
+    let score = 0;
+    let time = 60;
+    let currentIndex = 0;
+
+    const questionBox = document.getElementById("question");
+    const optionsBox = document.getElementById("options");
+    const scoreBox = document.getElementById("score");
+    const resultMsg = document.getElementById("resultMsg");
+
+    function loadQuestion() {
+      const current = questions[currentIndex];
+      questionBox.textContent = current.q;
+      optionsBox.innerHTML = "";
+
+      current.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.onclick = () => {
+          if (i === current.answer) score++;
+          scoreBox.textContent = "Score: " + score
