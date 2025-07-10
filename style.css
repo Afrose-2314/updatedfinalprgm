@@ -1,4 +1,4 @@
-/* === Global Styles === */
+
 body {
   font-family: 'Segoe UI', sans-serif;
   margin: 0;
@@ -6,14 +6,14 @@ body {
   text-align: center;
 }
 
-/* === Headings === */
+
 h1, h2 {
   margin-top: 20px;
   font-size: 26px;
   color: #333;
 }
 
-/* === Wheel Spinner === */
+
 .wheel-container {
   margin-top: 50px;
   position: relative;
@@ -47,7 +47,7 @@ h1, h2 {
   pointer-events: none;
 }
 
-/* === Spin Button === */
+
 #spinBtn {
   margin-top: 30px;
   padding: 12px 30px;
@@ -64,7 +64,7 @@ h1, h2 {
   background-color: #388e3c;
 }
 
-/* === Popup Instructions === */
+
 .popup {
   display: none;
   position: fixed;
@@ -107,7 +107,7 @@ h1, h2 {
   cursor: pointer;
 }
 
-/* === Animation === */
+
 @keyframes bounceIn {
   from {
     opacity: 0;
@@ -119,7 +119,7 @@ h1, h2 {
   }
 }
 
-/* === Login Page === */
+
 .login-box {
   width: 350px;
   margin: 120px auto;
@@ -162,7 +162,7 @@ h1, h2 {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* === Game Message Animation === */
+
 .success {
   color: green;
   font-weight: bold;
