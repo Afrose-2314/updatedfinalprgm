@@ -6,7 +6,7 @@ const games = [
   { emoji: "🧠", file: "acronym.html", instruction: "🧠 Choose the correct full form of the acronym." }
 ];
 
-// Shuffle for each spin
+
 const shuffledGames = games.sort(() => Math.random() - 0.5);
 const wheel = document.getElementById("wheel");
 const anglePerSegment = 360 / shuffledGames.length;
